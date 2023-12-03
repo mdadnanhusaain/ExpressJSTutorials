@@ -5,23 +5,29 @@ const blogs = require("../data/blogs");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../templates/index.html"));
+  res.render("index");
 });
 
 router.get("/blog", (req, res) => {
-  res.sendFile(path.join(__dirname, "../templates/blogHome.html"));
+  res.render("blogHome", {
+    blogs: blogs,
+  });
 });
 
 router.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "../templates/about.html"));
+  res.render("about");
 });
 
 router.get("/blogpost/:slug", (req, res) => {
   myBlog = blogs.filter((ele) => {
     return ele.slug == req.params.slug;
   });
-  console.log(myBlog);
-  res.sendFile(path.join(__dirname, "../templates/blogPage.html"));
+
+  res.render("blogPage", {
+    title: myBlog[0].title,
+    content: myBlog[0].content,
+    language: myBlog[0].language,
+  });
 });
 
 module.exports = router;
